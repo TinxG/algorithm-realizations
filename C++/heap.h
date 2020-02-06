@@ -260,7 +260,7 @@ namespace dataStruct
 			__iSize = 0;
 			__iCapacity = capacity;
 		}
-		
+
 		~IndexMinHeap()
 		{
 			delete[] __Data;
@@ -607,7 +607,7 @@ namespace dataStruct
 			__Data[loc] = v;
 		}
 
-		void shiftDown(int loc) 
+		void shiftDown(int loc)
 		{
 			while (loc * 2 <= __iSize)
 			{
@@ -651,7 +651,7 @@ namespace dataStruct
 			for (int i = 1; i <= __iSize; i++)
 				cout << __Data[i] << " ";
 			cout << endl;
-			
+
 		}
 
 		int getCapacity()
@@ -804,7 +804,7 @@ namespace dataStruct
 		 * change()
 		 * __MaxRev
 		 * __MinRev
-		 * 
+		 *
 		 */
 	private:
 		Item* __Data;
