@@ -3,10 +3,10 @@
 
 namespace algos {
 	
-	//函数bubble_sort
+	//函数bubbleSort
 	//冒泡排序，时间复杂度O(n^2)
-	template <class T>
-	void bubble_sort(T arr[], int length) {
+	template <typename T>
+	void bubbleSort(T arr[], int length) {
 		int k = length - 1; //用于内层j的循环条件
 		for (int i = 0; i < (length - 1); i++)
 		{

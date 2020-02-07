@@ -6,6 +6,6 @@ using namespace algos;
 using namespace testhelper;
 
 int main() {
-	test_sortA("Bubble Sort", bubble_sort, 10000, 3, make_range(0, 10000));
+	testSortA("Bubble Sort", bubbleSort, 10000, 3, makeRange(0, 10000));
 	return 0;
 }
