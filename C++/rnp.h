@@ -1,13 +1,12 @@
 #pragma once
-#include "algotest.h"
-
+#include "algo_test.h"
 //reverse number pairs
-//写出文件注释
-namespace algos
-{
-	template <class T>
-	long long __mergeG(T arr[], int l, int mid, int r)
-	{
+//求某数组中倒序数对个数
+
+namespace algos {
+	//rnp的merge并求倒序数对函数
+	template <typename T>
+	long long __mergeG(T arr[], int l, int mid, int r) {
 		T* aux = new T[r - l + 1];
 		int i = l, j = mid + 1;
 		long long rnpCount = 0L;
@@ -41,10 +40,10 @@ namespace algos
 		}
 		return (long long)rnpCount;
 	}
-
-	template <class T>
-	long long __getRNP(T arr[], int l,int r)
-	{
+	
+	//rnp的递归函数
+	template <typename T>
+	long long __getRNP(T arr[], int l,int r) {
 		long long rnpCount = 0L;
 		if (l >= r)
 			return rnpCount;
@@ -56,9 +55,11 @@ namespace algos
 		return (long long)rnpCount;
 	}
 
-	template <class T>
-	long long getRNP(T arr[],int length)
-	{
+	//计算倒序数对函数
+	//时间复杂度O(nlogn)
+	//基于递归的归并排序
+	template <typename T>
+	long long getRNP(T arr[],int length) {
 		return (long long)__getRNP(arr, 0, length - 1);
 	}
 }

@@ -6,7 +6,7 @@ using namespace algos;
 using namespace testhelper;
 
 int main() {
-	testSortA("Bubble Sort", bubbleSort, 10000, 3, makeRange(0, 10000));
+	//此处添加测试代码
 	system("pause");
 	return 0;
 }
