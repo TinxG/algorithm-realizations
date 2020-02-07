@@ -10,12 +10,18 @@ Come and contribute now!
 
 ## Allowed File Names
 
-_file names must be one of the algorihms name:_
+_main file names must be one of the algorihms name:_
 
 - bubble_sort.*
+- heap_sort.*
+- insert_sort.*
+- merge_sort.*
+- quick_sort.*
+- select_sort.*
 
 _If you have any idea about the rule of file name, please write it in your pull request or communicate with us by email._
 
 ## Contributors
 
 - Joxos
+- TinxG
