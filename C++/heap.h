@@ -3,12 +3,17 @@
 
 namespace dataStruct
 {
+	//结构体IndexItem
+	//索引+item，类似于pair
+	//不用于索引堆数据存储，用于extract返回值
 	template <typename Item>
 	struct IndexItem {
 		int index;
 		Item item;
 	};
 
+	//最大堆
+	//最基本实现
 	template <typename Item>
 	class MaxHeap {
 	private:
@@ -98,6 +103,8 @@ namespace dataStruct
 		}
 	};
 
+	//最小堆
+	//最基本实现
 	template <typename Item>
 	class MinHeap {
 	private:
@@ -187,6 +194,8 @@ namespace dataStruct
 		}
 	};
 
+	//最小索引堆
+	//加上Index数组和Reverse数组
 	template <typename Item>
 	class IndexMinHeap {
 	private:
@@ -328,6 +337,8 @@ namespace dataStruct
 		}
 	};
 
+	//最大索引堆
+	//加上Index数组和Reverse数组
 	template <typename Item>
 	class IndexMaxHeap {
 	private:
@@ -458,6 +469,10 @@ namespace dataStruct
 		}
 	};
 
+	//K叉最大堆
+	//设当前位置为loc
+	//子节点区间：[loc*k-k+2,loc*k+1]
+	//父节点公式：loc+k-2/k
 	template <typename Item, int k = 2>
 	class KMaxHeap {
 	public:
@@ -514,7 +529,7 @@ namespace dataStruct
 			while (loc * k - k + 2 <= __iSize)
 			{
 				int l = loc * k - k + 2;
-				for (int i = l + 1; i <= __iSize; i++)
+				for (int i = l + 1; i <= loc * k + 1; i++)
 				{
 					if (__Data[i] > __Data[l])
 						l = i;
@@ -527,6 +542,10 @@ namespace dataStruct
 		}
 	};
 
+	//动态最大堆
+	//__iCapacity非固定
+	//具体实现参考STL的vector
+    //申请新空间 -> 复制 -> delete原数组 -> __Data指向新空间 -> 原指向新空间指针销毁
 	template <class Item>
 	class DynamicMaxHeap {
 	private:
@@ -627,12 +646,15 @@ namespace dataStruct
 		}
 	};
 
+	//输出方式
 	enum PrintWay {
-		MaxIndex,
-		MinIndex
+		MaxIndex,  //降序
+		MinIndex   //升序
 	};
 
 	//base on IndexHeap
+	//最大最小堆
+	//同时存储两种排序方式的堆
 	template <typename Item>
 	class MaxMinHeap {
 	public:

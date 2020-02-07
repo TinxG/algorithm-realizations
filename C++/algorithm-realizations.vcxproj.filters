@@ -53,5 +53,8 @@
     <ClInclude Include="structure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="qian_N.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

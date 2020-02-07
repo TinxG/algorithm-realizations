@@ -108,6 +108,7 @@
     <ClInclude Include="insertion_sort.h" />
     <ClInclude Include="merge_sort.h" />
     <ClInclude Include="nofarr.h" />
+    <ClInclude Include="qian_N.h" />
     <ClInclude Include="quick_sort.h" />
     <ClInclude Include="rnp.h" />
     <ClInclude Include="selection_sort.h" />
