@@ -429,7 +429,7 @@ namespace dataStruct
 			return ext;
 		}
 
-		int extract_index() {
+		int extractIndex() {
 			assert(!isEmpty());
 			int ext = __Index[1] - 1;
 			swap(__Index[1], __Index[__iSize--]);
@@ -662,6 +662,13 @@ namespace dataStruct
 			__Data = new Item[capacity + 1];
 			__MaxIndex = new int[capacity + 1];
 			__MinIndex = new int[capacity + 1];
+			__RevMax = new int[capacity + 1];
+			__RevMin = new int[capacity + 1];
+			for (int i = 1; i <= capacity; i++)
+			{
+				__RevMax[i] = 0;
+				__RevMin[i] = 0;
+			}
 			__iCapacity = capacity;
 			__iSize = 0;
 		}
@@ -670,6 +677,8 @@ namespace dataStruct
 			delete[] __Data;
 			delete[] __MaxIndex;
 			delete[] __MinIndex;
+			delete[] __RevMax;
+			delete[] __RevMin;
 		}
 
 		void printAsArray(PrintWay pw) {
@@ -708,16 +717,9 @@ namespace dataStruct
 		}
 
 		bool isContain(int index) {
-			bool flag = false;
-			for (int i = 1; i <= __iSize; i++)
-			{
-				if (index == __MaxIndex[i] || index == __MinIndex[i])
-				{
-					flag = true;
-					break;
-				}
-			}
-			return flag;
+			assert(index + 1 >= 1 && index + 1 <= __iCapacity);
+			return __MaxRev[index + 1] != 0;
+			//also __MinRev[index + 1] != 0;
 		}
 
 		MaxMinHeap& insert(int index, Item dat) {
@@ -725,35 +727,90 @@ namespace dataStruct
 			assert(index + 1 >= 1 && index + 1 <= __iCapacity);
 			__Data[++index] = dat;
 			__MaxIndex[++__iSize] = index;
+			__RevMax[index] = __iSize;
 			__MinIndex[__iSize] = index;
+			__RevMin[index] = __iSize;
 			shiftUpMax(__iSize);
 			shiftUpMin(__iSize);
 			return *this;
 		}
 
-		/*
-         * TODO:
-		 * extractMaxItem()
-		 * extractMaxIndex()
-		 * shiftDownMax()
-		 * shiftDownMin()
-		 * if possible:
-		 * change()
-		 * __MaxRev
-		 * __MinRev
-		 *
-		 */
+		IndexItem<Item> extractMax() {
+			assert(!isEmpty());
+			IndexItem<Item> ii = { __MaxIndex[1] - 1,__Data[__MaxIndex[1]] };
+			swap(__MaxIndex[1], __MaxIndex[__iSize]);
+			swap(__MinIndex[__RevMin[ii.index]], __MinIndex[__iSize--]);
+			shiftDownMax(1);
+			shiftDownMin(__MinIndex[__RevMin[ii.index]]);
+			return ii;
+		}
+
+		IndexItem<Item> extractMin() {
+			assert(!isEmpty());
+			IndexItem<Item> ii = { __MinIndex[1] - 1,__Data[__MinIndex[1]] };
+			swap(__MinIndex[1], __MinIndex[__iSize]);
+			swap(__MaxIndex[__RevMax[ii.index]], __MaxIndex[__iSize--]);
+			shiftDownMin(1);
+			shiftDownMax(__MaxIndex[__RevMax[ii.index]]);
+			return ii;
+		}
+
+		MaxMinHeap& change(int index, Item ni) {
+			assert(isContain(index));
+			__Data[++index] = ni;
+			int maxi = __RevMax[index];
+			shiftUpMax(maxi);
+			shiftDownMax(maxi);
+			int mini = __RevMin[index];
+			shiftUpMin(mini);
+			shiftDownMin(mini);
+			return *this;
+		}
 	private:
 		Item* __Data;
 		int __iCapacity;
 		int __iSize;
 		int* __MaxIndex;
 		int* __MinIndex;
+		int* __RevMax;
+		int* __RevMin;
+
+		void shiftDownMax(int idx) {
+			while (idx * 2 <= __iSize)
+			{
+				int k = idx * 2;
+				if (k + 1 <= __iSize && __Data[__MaxIndex[k + 1]] > __Data[__MaxIndex[k]])
+					k += 1;
+				if (__Data[__MaxIndex[idx]] >= __Data[__MaxIndex[k]])
+					break;
+				swap(__MaxIndex[idx], __MaxIndex[k]);
+				__RevMax[__MaxIndex[idx]] = idx;
+				__RevMax[__MaxIndex[k]] = k;
+				idx = k;
+			}
+		}
+
+		void shiftDownMin(int idx) {
+			while (idx * 2 <= __iSize)
+			{
+				int k = idx * 2;
+				if (k + 1 <= __iSize && __Data[__MinIndex[k + 1]] < __Data[__MinIndex[k]])
+					k += 1;
+				if (__Data[__MinIndex[idx]] <= __Data[__MinIndex[k]])
+					break;
+				swap(__MinIndex[idx], __MinIndex[k]);
+				__RevMin[__MinIndex[idx]] = idx;
+				__RevMin[__MinIndex[k]] = k;
+				idx = k;
+			}
+		}
 
 		void shiftUpMax(int idx) {
 			while (idx / 2 >= 1 && __Data[__MaxIndex[idx]] > __Data[__MaxIndex[idx / 2]])
 			{
 				swap(__MaxIndex[idx], __MaxIndex[idx / 2]);
+				__RevMax[__MaxIndex[idx]] = idx;
+				__RevMax[__MaxIndex[idx / 2]] = idx / 2;
 				idx /= 2;
 			}
 		}
@@ -762,6 +819,8 @@ namespace dataStruct
 			while (idx / 2 >= 1 && __Data[__MinIndex[idx]] < __Data[__MinIndex[idx / 2]])
 			{
 				swap(__MinIndex[idx], __MinIndex[idx / 2]);
+				__RevMin[__MinIndex[idx]] = idx;
+				__RevMin[__MinIndex[idx / 2]] = idx;
 				idx /= 2;
 			}
 		}
