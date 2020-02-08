@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="algo_test.h" />
+    <ClInclude Include="binary_search.h" />
     <ClInclude Include="bubble_sort.h" />
     <ClInclude Include="heap.h" />
     <ClInclude Include="heap_sort.h" />

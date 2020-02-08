@@ -5,7 +5,7 @@ namespace algos {
 	//µ¥Â·partition
 	template <typename T>
 	int __partitionA(T arr[], int l, int r) {
-		swap(arr[l], arr[(r + l) / 2]);
+		swap(arr[l], arr[(r - l) / 2 + l]);
 		T v = arr[l];
 		int j = l;
 		for (int i = l+1;i <= r; i++)
@@ -23,7 +23,7 @@ namespace algos {
 	//Ë«Â·partition
 	template <typename T>
 	int __partitionB(T arr[], int l, int r) {
-		swap(arr[l], arr[(r+l)/2]);
+		swap(arr[l], arr[(r - l) / 2 + l]);
 
 		T v = arr[l];
 		int i = l + 1, j = r;

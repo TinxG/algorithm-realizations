@@ -48,7 +48,7 @@ namespace algos {
 		if (l >= r)
 			return rnpCount;
 
-		int mid = (l + r) / 2;
+		int mid = (r - l) / 2 + l;
 		rnpCount += __getRNP(arr, l, mid);
 		rnpCount += __getRNP(arr, mid + 1, r);
 		rnpCount += __mergeG(arr, l, mid, r);

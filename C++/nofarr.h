@@ -7,7 +7,7 @@ namespace algos {
 	//用于得到第N小元素算法的partition操作函数
 	template <typename T>
 	int __partitionG(T arr[], int l, int r) {
-		swap(arr[l], arr[(r + l) / 2]);
+		swap(arr[l], arr[(r - l) / 2 + l]);
 
 		T v = arr[l];
 		int i = l + 1, j = r;

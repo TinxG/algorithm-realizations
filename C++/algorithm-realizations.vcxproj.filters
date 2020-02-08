@@ -56,5 +56,8 @@
     <ClInclude Include="qian_N.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="binary_search.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

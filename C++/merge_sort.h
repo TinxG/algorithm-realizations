@@ -79,7 +79,7 @@ namespace algos {
 		if (l >= r)
 			return;
 
-		int mid = (l + r) / 2;
+		int mid = (r - l) / 2 + l;
 		__mergeSortA(arr, l, mid);
 		__mergeSortA(arr, mid + 1, r);
 		__merge(arr, l, mid, r);
@@ -104,7 +104,7 @@ namespace algos {
 			insertionSortB(arr, l, r);
 			return;
 		}
-		int mid = (l + r) / 2;
+		int mid = (r - l) / 2 + l;
 		__mergeSortB(arr, l, mid);
 		__mergeSortB(arr, mid + 1, r);
 		if (arr[mid] > arr[mid + 1])

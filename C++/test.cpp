@@ -1,6 +1,7 @@
 #include "algo_test.h"
 #include "bubble_sort.h"
 #include "heap.h"
+#include "binary_search.h"
 
 using namespace std;
 using namespace algos;
@@ -9,13 +10,8 @@ using namespace dataStruct;
 
 int main() {
 	//在这里添加你想要的测试代码
-	MaxMinHeap<int> mmh(20);
-	mmh.insert(15, 111).insert(14, 123).insert(13, 155).insert(1, 22).insert(8, 88).insert(7, 76).printAsArray(MaxIndex);
-	mmh.printAsArray(MinIndex);
-	IndexItem<int> ii = mmh.extractMax();
-	cout << "index:" << ii.index << " item:" << ii.item << endl;
-	mmh.change(14, 156).printAsArray(MaxIndex);
-	mmh.printAsArray(MinIndex);
+	int arr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	cout << arr[binarySearchB(arr, 10, 8)] << endl;
 	system("pause");
 	return 0;
 }
