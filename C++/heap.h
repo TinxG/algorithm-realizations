@@ -3,19 +3,21 @@
 
 namespace dataStruct
 {
-	template <class Item>
-	struct IndexItem
-	{
+	//结构体IndexItem
+	//索引+item，类似于pair
+	//不用于索引堆数据存储，用于extract返回值
+	template <typename Item>
+	struct IndexItem {
 		int index;
 		Item item;
 	};
 
-	template <class Item>
-	class MaxHeap
-	{
+	//最大堆
+	//最基本实现
+	template <typename Item>
+	class MaxHeap {
 	private:
-		void shiftUp(int loc)
-		{
+		void shiftUp(int loc) {
 			while (loc > 1 && __Data[loc] > __Data[loc / 2])
 			{
 				swap(__Data[loc], __Data[loc / 2]);
@@ -23,8 +25,7 @@ namespace dataStruct
 			}
 		}
 
-		void shiftDown(int loc)
-		{
+		void shiftDown(int loc) {
 			while (loc * 2 <= __iSize)
 			{
 				int k = loc * 2;
@@ -44,15 +45,14 @@ namespace dataStruct
 		int __iCapacity;
 
 	public:
-		MaxHeap(int capacity)
-		{
+		MaxHeap(int capacity) {
 			__Data = new Item[capacity + 1];
 			__iSize = 0;
 			__iCapacity = capacity;
 		}
 
-		MaxHeap(Item arr[], int length)
-		{
+		//heapify
+		MaxHeap(Item arr[], int length) {
 			__Data = new Item[length + 1];
 			__iCapacity = length;
 			for (int i = 0; i < length; i++)
@@ -62,37 +62,31 @@ namespace dataStruct
 				shiftDown(i);
 		}
 
-		~MaxHeap()
-		{
+		~MaxHeap() {
 			delete[] __Data;
 		}
 
-		Item getItem(int index)
-		{
+		Item getItem(int index) {
 			assert(index + 1 >= 1 && index + 1 <= __iSize);
 			return __Data[index + 1];
 		}
 
-		int size()
-		{
+		int getSize() {
 			return __iSize;
 		}
 
-		bool isEmpty()
-		{
+		bool isEmpty() {
 			return __iSize == 0;
 		}
 
-		MaxHeap& insert(Item item)
-		{
+		MaxHeap& insert(Item item) {
 			assert(__iSize + 1 <= __iCapacity);
 			__Data[++__iSize] = item;
 			shiftUp(__iSize);
 			return *this;
 		}
 
-		void printAsArray()
-		{
+		void printAsArray() {
 			for (int i = 1; i <= __iSize; i++)
 			{
 				cout << __Data[i] << " ";
@@ -100,9 +94,8 @@ namespace dataStruct
 			cout << endl;
 		}
 
-		Item extract()
-		{
-			assert(!isEmpty());
+		Item extractItem() {
+			assert(!is_empty());
 			Item ext = __Data[1];
 			__Data[1] = __Data[__iSize--];
 			shiftDown(1);
@@ -110,12 +103,12 @@ namespace dataStruct
 		}
 	};
 
-	template <class Item>
-	class MinHeap
-	{
+	//最小堆
+	//最基本实现
+	template <typename Item>
+	class MinHeap {
 	private:
-		void shiftUp(int loc)
-		{
+		void shiftUp(int loc) {
 			while (loc > 1 && __Data[loc] < __Data[loc / 2])
 			{
 				swap(__Data[loc], __Data[loc / 2]);
@@ -123,8 +116,7 @@ namespace dataStruct
 			}
 		}
 
-		void shiftDown(int loc)
-		{
+		void shiftDown(int loc) {
 			while (loc * 2 <= __iSize)
 			{
 				int k = loc * 2;
@@ -144,15 +136,14 @@ namespace dataStruct
 		int __iCapacity;
 
 	public:
-		MinHeap(int capacity)
-		{
+		MinHeap(int capacity) {
 			__Data = new Item[capacity + 1];
 			__iSize = 0;
 			__iCapacity = capacity;
 		}
 
-		MinHeap(Item arr[], int length)
-		{
+		//heapify
+		MinHeap(Item arr[], int length) {
 			__Data = new Item[length + 1];
 			__iCapacity = length;
 			for (int i = 0; i < length; i++)
@@ -162,37 +153,31 @@ namespace dataStruct
 				shiftDown(i);
 		}
 
-		~MinHeap()
-		{
+		~MinHeap() {
 			delete[] __Data;
 		}
 
-		Item getItem(int index)
-		{
+		Item getItem(int index) {
 			assert(index + 1 >= 1 && index + 1 <= __iSize);
 			return __Data[index + 1];
 		}
 
-		int size()
-		{
+		int getSize() {
 			return __iSize;
 		}
 
-		bool isEmpty()
-		{
+		bool isEmpty() {
 			return __iSize == 0;
 		}
 
-		MinHeap& insert(Item item)
-		{
+		MinHeap& insert(Item item) {
 			assert(__iSize + 1 <= __iCapacity);
 			__Data[++__iSize] = item;
 			shiftUp(__iSize);
 			return *this;
 		}
 
-		void printAsArray()
-		{
+		void printAsArray() {
 			for (int i = 1; i <= __iSize; i++)
 			{
 				cout << __Data[i] << " ";
@@ -200,22 +185,21 @@ namespace dataStruct
 			cout << endl;
 		}
 
-		Item extract()
-		{
-			assert(!isEmpty());
+		Item extractItem() {
+			assert(!is_empty());
 			Item ext = __Data[1];
 			__Data[1] = __Data[__iSize--];
-			shiftDown(1);
+			shift_down(1);
 			return ext;
 		}
 	};
 
-	template <class Item>
-	class IndexMinHeap
-	{
+	//最小索引堆
+	//加上Index数组和Reverse数组
+	template <typename Item>
+	class IndexMinHeap {
 	private:
-		void shiftUp(int loc)
-		{
+		void shiftUp(int loc) {
 			while (loc > 1 && __Data[__Index[loc]] < __Data[__Index[loc / 2]])
 			{
 				swap(__Index[loc], __Index[loc / 2]);
@@ -225,8 +209,7 @@ namespace dataStruct
 			}
 		}
 
-		void shiftDown(int loc)
-		{
+		void shiftDown(int loc) {
 			while (loc * 2 <= __iSize)
 			{
 				int k = loc * 2;
@@ -250,8 +233,7 @@ namespace dataStruct
 		int __iCapacity;
 
 	public:
-		IndexMinHeap(int capacity)
-		{
+		IndexMinHeap(int capacity) {
 			__Data = new Item[capacity + 1];
 			__Index = new int[capacity + 1];
 			__Rev = new int[capacity + 1];
@@ -261,25 +243,21 @@ namespace dataStruct
 			__iCapacity = capacity;
 		}
 
-		~IndexMinHeap()
-		{
+		~IndexMinHeap() {
 			delete[] __Data;
 			delete[] __Index;
 			delete[] __Rev;
 		}
 
-		int size()
-		{
+		int getSize() {
 			return __iSize;
 		}
 
-		bool isEmpty()
-		{
+		bool isEmpty() {
 			return __iSize == 0;
 		}
 
-		IndexMinHeap& insert(int index,	Item item)
-		{
+		IndexMinHeap& insert(int index,	Item item) {
 			assert(__iSize + 1 <= __iCapacity);
 			assert(index + 1 >= 1 && index + 1 <= __iCapacity);
 			index++;
@@ -290,8 +268,7 @@ namespace dataStruct
 			return *this;
 		}
 
-		void printAsArray()
-		{
+		void printAsArray() {
 			for (int i = 1; i <= __iSize; i++)
 			{
 				cout << __Data[__Index[i]] << " ";
@@ -299,9 +276,8 @@ namespace dataStruct
 			cout << endl;
 		}
 
-		Item extractItem()
-		{
-			assert(!isEmpty());
+		Item extractItem() {
+			assert(!is_empty());
 			Item ext = __Data[__Index[1]];
 			swap(__Index[1], __Index[__iSize--]);
 			__Rev[__Index[1]] = 1;
@@ -310,9 +286,8 @@ namespace dataStruct
 			return ext;
 		}
 
-		int extractIndex()
-		{
-			assert(!isEmpty());
+		int extractIndex() {
+			assert(!is_empty());
 			int ext = __Index[1] - 1;
 			swap(__Index[1], __Index[__iSize--]);
 			__Rev[__Index[1]] = 1;
@@ -321,9 +296,8 @@ namespace dataStruct
 			return ext;
 		}
 
-		IndexItem<Item> extractIndexItem()
-		{
-			assert(!isEmpty());
+		IndexItem<Item> extractIndexItem() {
+			assert(!is_empty());
 			Item exti = __Data[__Index[1]];
 			int ext = __Index[1] - 1;
 			swap(__Index[1], __Index[__iSize--]);
@@ -333,20 +307,17 @@ namespace dataStruct
 			return { ext,exti };
 		}
 
-		bool isContain(int index)
-		{
+		bool isContain(int index) {
 			assert(index + 1 >= 1 && index + 1 <= __iCapacity);
 			return __Rev[index + 1] != 0;
 		}
 
-		Item getItem(int index)
-		{
+		Item getItem(int index) {
 			assert(isContain(index));
 			return __Data[index + 1];
 		}
 
-		IndexMinHeap& change(int index, Item ni)
-		{
+		IndexMinHeap& change(int index, Item ni) {
 			assert(isContain(index));
 			__Data[++index] = ni;
 			/*
@@ -366,12 +337,12 @@ namespace dataStruct
 		}
 	};
 
-	template <class Item>
-	class IndexMaxHeap
-	{
+	//最大索引堆
+	//加上Index数组和Reverse数组
+	template <typename Item>
+	class IndexMaxHeap {
 	private:
-		void shiftUp(int loc)
-		{
+		void shiftUp(int loc) {
 			while (loc > 1 && __Data[__Index[loc]] > __Data[__Index[loc / 2]])
 			{
 				swap(__Index[loc], __Index[loc / 2]);
@@ -381,8 +352,7 @@ namespace dataStruct
 			}
 		}
 
-		void shiftDown(int loc)
-		{
+		void shiftDown(int loc) {
 			while (loc * 2 <= __iSize)
 			{
 				int k = loc * 2;
@@ -406,8 +376,7 @@ namespace dataStruct
 		int __iCapacity;
 
 	public:
-		IndexMaxHeap(int capacity)
-		{
+		IndexMaxHeap(int capacity) {
 			__Data = new Item[capacity + 1];
 			__Index = new int[capacity + 1];
 			__Rev = new int[capacity + 1];
@@ -417,25 +386,21 @@ namespace dataStruct
 			__iCapacity = capacity;
 		}
 
-		~IndexMaxHeap()
-		{
+		~IndexMaxHeap() {
 			delete[] __Data;
 			delete[] __Index;
 			delete[] __Rev;
 		}
 
-		int size()
-		{
+		int getSize() {
 			return __iSize;
 		}
 
-		bool isEmpty()
-		{
+		bool isEmpty() {
 			return __iSize == 0;
 		}
 
-		IndexMaxHeap& insert(int index, Item item)
-		{
+		IndexMaxHeap& insert(int index, Item item) {
 			assert(__iSize + 1 <= __iCapacity);
 			assert(index + 1 >= 1 && index + 1 <= __iCapacity);
 			index++;
@@ -446,8 +411,7 @@ namespace dataStruct
 			return *this;
 		}
 
-		void printAsArray()
-		{
+		void printAsArray() {
 			for (int i = 1; i <= __iSize; i++)
 			{
 				cout << __Data[__Index[i]] << " ";
@@ -455,8 +419,7 @@ namespace dataStruct
 			cout << endl;
 		}
 
-		Item extractItem()
-		{
+		Item extractItem() {
 			assert(!isEmpty());
 			Item ext = __Data[__Index[1]];
 			swap(__Index[1], __Index[__iSize--]);
@@ -466,8 +429,7 @@ namespace dataStruct
 			return ext;
 		}
 
-		int extractIndex()
-		{
+		int extractIndex() {
 			assert(!isEmpty());
 			int ext = __Index[1] - 1;
 			swap(__Index[1], __Index[__iSize--]);
@@ -477,20 +439,17 @@ namespace dataStruct
 			return ext;
 		}
 
-		bool isContain(int index)
-		{
+		bool isContain(int index) {
 			assert(index + 1 >= 1 && index + 1 <= __iCapacity);
 			return __Rev[index + 1] != 0;
 		}
 
-		Item getItem(int index)
-		{
+		Item getItem(int index) {
 			assert(isContain(index));
 			return __Data[index + 1];
 		}
 
-		IndexMaxHeap& change(int index, Item ni)
-		{
+		IndexMaxHeap& change(int index, Item ni) {
 			assert(isContain(index));
 			__Data[++index] = ni;
 			/*
@@ -510,32 +469,31 @@ namespace dataStruct
 		}
 	};
 
-	template <class Item, int k = 2>
-	class KMaxHeap
-	{
+	//K叉最大堆
+	//设当前位置为loc
+	//子节点区间：[loc*k-k+2,loc*k+1]
+	//父节点公式：loc+k-2/k
+	template <typename Item, int k = 2>
+	class KMaxHeap {
 	public:
-		KMaxHeap(int capacity)
-		{
+		KMaxHeap(int capacity) {
 			__Data = new Item[capacity + 1];
 			__iCapacity = capacity;
 			__iSize = 0;
 		}
 
-		~KMaxHeap()
-		{
+		~KMaxHeap() {
 			delete[] __Data;
 		}
 
-		KMaxHeap& insert(Item dat)
-		{
+		KMaxHeap& insert(Item dat) {
 			assert(__iSize + 1 >= 1 && __iSize + 1 <= __iCapacity);
 			__Data[++__iSize] = dat;
 			shiftUp(__iSize);
 			return *this;
 		}
 
-		Item extractItem()
-		{
+		Item extractItem() {
 			assert(!isEmpty());
 			Item ext = __Data[1];
 			swap(__Data[1], __Data[__iSize--]);
@@ -545,13 +503,11 @@ namespace dataStruct
 			return ext;
 		}
 
-		bool isEmpty()
-		{
+		bool isEmpty() {
 			return __iSize == 0;
 		}
 
-		void printAsArray()
-		{
+		void printAsArray() {
 			for (int i = 1; i <= __iSize; i++)
 				cout << __Data[i] << " ";
 			cout << endl;
@@ -561,8 +517,7 @@ namespace dataStruct
 		int __iCapacity;
 		int __iSize;
 
-		void shiftUp(int loc)
-		{
+		void shiftUp(int loc) {
 			while ((loc+k-2)/k >= 1 && __Data[loc] > __Data[(loc+k-2)/k])
 			{
 				swap(__Data[loc], __Data[(loc+k-2)/k]);
@@ -570,12 +525,11 @@ namespace dataStruct
 			}
 		}
 
-		void shiftDown(int loc)
-		{
+		void shiftDown(int loc) {
 			while (loc * k - k + 2 <= __iSize)
 			{
 				int l = loc * k - k + 2;
-				for (int i = l + 1; i <= __iSize; i++)
+				for (int i = l + 1; i <= loc * k + 1; i++)
 				{
 					if (__Data[i] > __Data[l])
 						l = i;
@@ -588,16 +542,18 @@ namespace dataStruct
 		}
 	};
 
+	//动态最大堆
+	//__iCapacity非固定
+	//具体实现参考STL的vector
+    //申请新空间 -> 复制 -> delete原数组 -> __Data指向新空间 -> 原指向新空间指针销毁
 	template <class Item>
-	class DynamicMaxHeap
-	{
+	class DynamicMaxHeap {
 	private:
 		Item* __Data;
 		int __iCapacity;
 		int __iSize;
 
-		void shiftUp(int loc)
-		{
+		void shiftUp(int loc) {
 			Item v = __Data[loc];
 			while (loc / 2 >= 1 && v > __Data[loc / 2])
 			{
@@ -607,8 +563,7 @@ namespace dataStruct
 			__Data[loc] = v;
 		}
 
-		void shiftDown(int loc)
-		{
+		void shiftDown(int loc) {
 			while (loc * 2 <= __iSize)
 			{
 				int k = loc * 2;
@@ -621,15 +576,13 @@ namespace dataStruct
 			}
 		}
 	public:
-		DynamicMaxHeap(int capacity = 100)
-		{
+		DynamicMaxHeap(int capacity = 100) {
 			__Data = new Item[capacity + 1];
 			__iCapacity = capacity;
 			__iSize = 0;
 		}
 
-		DynamicMaxHeap(Item arr[], int length)
-		{
+		DynamicMaxHeap(Item arr[], int length) {
 			__Data = new Item[length + 1];
 			__iCapacity = length;
 			__iSize = length;
@@ -641,36 +594,30 @@ namespace dataStruct
 			}
 		}
 
-		~DynamicMaxHeap()
-		{
+		~DynamicMaxHeap() {
 			delete[] __Data;
 		}
 
-		void printAsArray()
-		{
+		void printAsArray() {
 			for (int i = 1; i <= __iSize; i++)
 				cout << __Data[i] << " ";
 			cout << endl;
 
 		}
 
-		int getCapacity()
-		{
+		int getCapacity() {
 			return __iCapacity;
 		}
 
-		int getSize()
-		{
+		int getSize() {
 			return __iSize;
 		}
 
-		bool isEmpty()
-		{
+		bool isEmpty() {
 			return __iSize == 0;
 		}
 
-		void expandCapacity(int extra)
-		{
+		void expandCapacity(int extra) {
 			Item* temp = new Item[__iCapacity + 1 + extra];
 			for (int i = 1; i <= __iSize; i++)
 			{
@@ -682,8 +629,7 @@ namespace dataStruct
 			__iCapacity += extra;
 		}
 
-		DynamicMaxHeap& insert(Item item)
-		{
+		DynamicMaxHeap& insert(Item item) {
 			if (__iSize + 1 > __iCapacity)
 				expandCapacity(5);
 			__Data[++__iSize] = item;
@@ -691,8 +637,7 @@ namespace dataStruct
 			return *this;
 		}
 
-		Item extractItem()
-		{
+		Item extractItem() {
 			assert(!isEmpty());
 			Item ext = __Data[1];
 			swap(__Data[__iSize--], __Data[1]);
@@ -701,35 +646,42 @@ namespace dataStruct
 		}
 	};
 
-	enum printWay
-	{
-		MaxIndex,
-		MinIndex
+	//输出方式
+	enum PrintWay {
+		MaxIndex,  //降序
+		MinIndex   //升序
 	};
 
 	//base on IndexHeap
-	template <class Item>
-	class MaxMinHeap
-	{
+	//最大最小堆
+	//同时存储两种排序方式的堆
+	template <typename Item>
+	class MaxMinHeap {
 	public:
-		MaxMinHeap(int capacity)
-		{
+		MaxMinHeap(int capacity) {
 			__Data = new Item[capacity + 1];
 			__MaxIndex = new int[capacity + 1];
 			__MinIndex = new int[capacity + 1];
+			__RevMax = new int[capacity + 1];
+			__RevMin = new int[capacity + 1];
+			for (int i = 1; i <= capacity; i++)
+			{
+				__RevMax[i] = 0;
+				__RevMin[i] = 0;
+			}
 			__iCapacity = capacity;
 			__iSize = 0;
 		}
 
-		~MaxMinHeap()
-		{
+		~MaxMinHeap() {
 			delete[] __Data;
 			delete[] __MaxIndex;
 			delete[] __MinIndex;
+			delete[] __RevMax;
+			delete[] __RevMin;
 		}
 
-		void printAsArray(printWay pw)
-		{
+		void printAsArray(PrintWay pw) {
 			switch (pw)
 			{
 			case MaxIndex:
@@ -747,86 +699,128 @@ namespace dataStruct
 			}
 		}
 
-		Item getItem(int index)
-		{
+		Item getItem(int index) {
 			assert(isContain(index + 1));
 			return __Data[index + 1];
 		}
 
-		int getSize()
-		{
+		int getSize() {
 			return __iSize;
 		}
 
-		int getCapacity()
-		{
+		int getCapacity() {
 			return __iCapacity;
 		}
 
-		bool isEmpty()
-		{
+		bool isEmpty() {
 			return __iSize == 0;
 		}
 
-		bool isContain(int index)
-		{
-			bool flag = false;
-			for (int i = 1; i <= __iSize; i++)
-			{
-				if (index == __MaxIndex[i] || index == __MinIndex[i])
-				{
-					flag = true;
-					break;
-				}
-			}
-			return flag;
+		bool isContain(int index) {
+			assert(index + 1 >= 1 && index + 1 <= __iCapacity);
+			return __MaxRev[index + 1] != 0;
+			//also __MinRev[index + 1] != 0;
 		}
 
-		MaxMinHeap& insert(int index, Item dat)
-		{
+		MaxMinHeap& insert(int index, Item dat) {
 			assert(__iSize + 1 <= __iCapacity);
 			assert(index + 1 >= 1 && index + 1 <= __iCapacity);
 			__Data[++index] = dat;
 			__MaxIndex[++__iSize] = index;
+			__RevMax[index] = __iSize;
 			__MinIndex[__iSize] = index;
+			__RevMin[index] = __iSize;
 			shiftUpMax(__iSize);
 			shiftUpMin(__iSize);
 			return *this;
 		}
 
-		/*
-         * TODO:
-		 * extractMaxItem()
-		 * extractMaxIndex()
-		 * shiftDownMax()
-		 * shiftDownMin()
-		 * if possible:
-		 * change()
-		 * __MaxRev
-		 * __MinRev
-		 *
-		 */
+		IndexItem<Item> extractMax() {
+			assert(!isEmpty());
+			IndexItem<Item> ii = { __MaxIndex[1] - 1,__Data[__MaxIndex[1]] };
+			swap(__MaxIndex[1], __MaxIndex[__iSize]);
+			swap(__MinIndex[__RevMin[ii.index]], __MinIndex[__iSize--]);
+			shiftDownMax(1);
+			shiftDownMin(__MinIndex[__RevMin[ii.index]]);
+			return ii;
+		}
+
+		IndexItem<Item> extractMin() {
+			assert(!isEmpty());
+			IndexItem<Item> ii = { __MinIndex[1] - 1,__Data[__MinIndex[1]] };
+			swap(__MinIndex[1], __MinIndex[__iSize]);
+			swap(__MaxIndex[__RevMax[ii.index]], __MaxIndex[__iSize--]);
+			shiftDownMin(1);
+			shiftDownMax(__MaxIndex[__RevMax[ii.index]]);
+			return ii;
+		}
+
+		MaxMinHeap& change(int index, Item ni) {
+			assert(isContain(index));
+			__Data[++index] = ni;
+			int maxi = __RevMax[index];
+			shiftUpMax(maxi);
+			shiftDownMax(maxi);
+			int mini = __RevMin[index];
+			shiftUpMin(mini);
+			shiftDownMin(mini);
+			return *this;
+		}
 	private:
 		Item* __Data;
 		int __iCapacity;
 		int __iSize;
 		int* __MaxIndex;
 		int* __MinIndex;
+		int* __RevMax;
+		int* __RevMin;
 
-		void shiftUpMax(int idx)
-		{
+		void shiftDownMax(int idx) {
+			while (idx * 2 <= __iSize)
+			{
+				int k = idx * 2;
+				if (k + 1 <= __iSize && __Data[__MaxIndex[k + 1]] > __Data[__MaxIndex[k]])
+					k += 1;
+				if (__Data[__MaxIndex[idx]] >= __Data[__MaxIndex[k]])
+					break;
+				swap(__MaxIndex[idx], __MaxIndex[k]);
+				__RevMax[__MaxIndex[idx]] = idx;
+				__RevMax[__MaxIndex[k]] = k;
+				idx = k;
+			}
+		}
+
+		void shiftDownMin(int idx) {
+			while (idx * 2 <= __iSize)
+			{
+				int k = idx * 2;
+				if (k + 1 <= __iSize && __Data[__MinIndex[k + 1]] < __Data[__MinIndex[k]])
+					k += 1;
+				if (__Data[__MinIndex[idx]] <= __Data[__MinIndex[k]])
+					break;
+				swap(__MinIndex[idx], __MinIndex[k]);
+				__RevMin[__MinIndex[idx]] = idx;
+				__RevMin[__MinIndex[k]] = k;
+				idx = k;
+			}
+		}
+
+		void shiftUpMax(int idx) {
 			while (idx / 2 >= 1 && __Data[__MaxIndex[idx]] > __Data[__MaxIndex[idx / 2]])
 			{
 				swap(__MaxIndex[idx], __MaxIndex[idx / 2]);
+				__RevMax[__MaxIndex[idx]] = idx;
+				__RevMax[__MaxIndex[idx / 2]] = idx / 2;
 				idx /= 2;
 			}
 		}
 
-		void shiftUpMin(int idx)
-		{
+		void shiftUpMin(int idx) {
 			while (idx / 2 >= 1 && __Data[__MinIndex[idx]] < __Data[__MinIndex[idx / 2]])
 			{
 				swap(__MinIndex[idx], __MinIndex[idx / 2]);
+				__RevMin[__MinIndex[idx]] = idx;
+				__RevMin[__MinIndex[idx / 2]] = idx;
 				idx /= 2;
 			}
 		}

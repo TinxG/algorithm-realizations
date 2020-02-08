@@ -8,7 +8,4 @@
 
 using namespace std;
 
-namespace dataStruct
-{
-	
-}
+namespace dataStruct { }

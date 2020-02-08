@@ -1,11 +1,12 @@
 #pragma once
-#include "algotest.h"
+#include "algo_test.h"
 
-namespace algos
-{
-	template <class T>
-	void insertionSortA(T arr[], int length)
-	{
+namespace algos {
+	//插入排序A
+	//时间复杂度O(n^2)
+	//比较慢
+	template <typename T>
+	void insertionSortA(T arr[], int length) {
 		for (int i = 1; i < length; i++)
 		{
 			for (int j = i; j > 0; j--)
@@ -18,9 +19,12 @@ namespace algos
 		}
 	}
 
-	template <class T>
-	void insertionSortB(T arr[], int length)
-	{
+	//插入排序B
+	//时间复杂度O(n^2)
+	//通过不使用交换函数加快速度
+	//较为快速
+	template <typename T>
+	void insertionSortB(T arr[], int length) {
 		for (int i = 1; i < length; i++)
 		{
 			T a = arr[i];
@@ -33,9 +37,10 @@ namespace algos
 		}
 	}
 
+	//插入排序B重载
+	//用于O(nlogn)算法底层优化
 	template <class T>
-	void insertionSortB(T arr[], int l, int r)
-	{
+	void insertionSortB(T arr[], int l, int r) {
 		for (int i = l + 1; i <= r; i++)
 		{
 			T a = arr[i];

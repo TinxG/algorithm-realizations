@@ -1,11 +1,10 @@
 #pragma once
-#include "algotest.h"
+#include "algo_test.h"
 
-namespace algos
-{
-	template <class T>
-	int __partitionA(T arr[], int l, int r)
-	{
+namespace algos {
+	//单路partition
+	template <typename T>
+	int __partitionA(T arr[], int l, int r) {
 		swap(arr[l], arr[(r + l) / 2]);
 		T v = arr[l];
 		int j = l;
@@ -21,9 +20,9 @@ namespace algos
 		return j;
 	}
 
-	template <class T>
-	int __partitionB(T arr[], int l, int r)
-	{
+	//双路partition
+	template <typename T>
+	int __partitionB(T arr[], int l, int r) {
 		swap(arr[l], arr[(r+l)/2]);
 
 		T v = arr[l];
@@ -39,9 +38,9 @@ namespace algos
 		return j;
 	}
 
-	template <class T>
-	void __quickSortA(T arr[], int l, int r)
-	{
+	//单路快排的递归函数
+	template <typename T>
+	void __quickSortA(T arr[], int l, int r) {
 		if (r - l <= 15)
 		{
 			insertionSortB(arr, l, r);
@@ -53,15 +52,17 @@ namespace algos
 		__quickSortA(arr, p + 1, r);
 	}
 
-	template <class T>
-	void quickSortA(T arr[], int length)
-	{
+	//单路快排
+	//时间复杂度O(nlogn)
+	//对于重复数组退化为O(n^2)
+	template <typename T>
+	void quickSortA(T arr[], int length) {
 		__quickSortA(arr, 0, length - 1);
 	}
-
-	template <class T>
-	void __quickSortB(T arr[], int l, int r)
-	{
+	
+	//双路快排的递归函数
+	template <typename T>
+	void __quickSortB(T arr[], int l, int r) {
 		if (r - l <= 15)
 		{
 			insertionSortB(arr, l, r);
@@ -73,15 +74,16 @@ namespace algos
 		__quickSortB(arr, p + 1, r);
 	}
 
-	template <class T>
-	void __quickSortC(T arr[], int l, int r)
-	{
+	//三路快排的递归函数，内置partition
+	template <typename T>
+	void __quickSortC(T arr[], int l, int r) {
 		if (r - l <= 15)
 		{
 			insertionSortB(arr, l, r);
 			return;
 		}
 
+		//partition开始
 		swap(arr[l], arr[(r + l) / 2]);
 		T v = arr[l];
 
@@ -110,15 +112,20 @@ namespace algos
 		__quickSortC(arr, gt, r);
 	}
 
-	template <class T>
-	void quickSortB(T arr[], int length)
-	{
+	//双路快排
+	//时间复杂度O(nlogn)
+	//对于重复数组已经可以较快地处理了
+	template <typename T>
+	void quickSortB(T arr[], int length) {
 		__quickSortB(arr, 0, length - 1);
 	}
 
-	template <class T>
-	void quickSortC(T arr[], int length)
-	{
+	//三路快排
+	//时间复杂度O(nlogn)
+	//对于重复数组可以极快地处理完成
+	//对于一般数组也可以加快速度
+	template <typename T>
+	void quickSortC(T arr[], int length) {
 		__quickSortC(arr, 0, length - 1);
 	}
 }

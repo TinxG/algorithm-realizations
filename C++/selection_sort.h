@@ -1,11 +1,11 @@
 #pragma once
-#include "algotest.h"
+#include "algo_test.h"
 
-namespace algos
-{
-	template <class T>
-	void selectionSort(T arr[], int length)
-	{
+namespace algos {
+	//选择排序
+	//时间复杂度O(n^2)
+	template <typename T>
+	void selectionSort(T arr[], int length) {
 		for (int i = 0; i < length; i++)
 		{
 			int minindex = i;

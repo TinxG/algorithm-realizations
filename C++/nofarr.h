@@ -1,11 +1,12 @@
 #pragma once
-#include "algotest.h"
+#include "algo_test.h"
+//我取名技术太差了
+//nofarr = the Nth of an array
 
-namespace algos
-{
-	template <class T>
-	int __partitionG(T arr[], int l, int r)
-	{
+namespace algos {
+	//用于得到第N小元素算法的partition操作函数
+	template <typename T>
+	int __partitionG(T arr[], int l, int r) {
 		swap(arr[l], arr[(r + l) / 2]);
 
 		T v = arr[l];
@@ -21,9 +22,9 @@ namespace algos
 		return j;
 	}
 
-	template <class T>
-	T __getTheN(T arr[], int l, int r, int rank)
-	{
+	//getTheN的递归函数
+	template <typename T>
+	T __getTheN(T arr[], int l, int r, int rank) {
 		if (l >= r)
 			return arr[l];
 		int p = __partitionG(arr, l, r);
@@ -41,9 +42,10 @@ namespace algos
 		}
 	}
 
-	template <class T>
-	T getTheN(T arr[], int length, int rank)
-	{
+	//基于快速排序的获得第N小元素的算法getTheN
+	//时间复杂度O(nlogn)
+	template <typename T>
+	T getTheN(T arr[], int length, int rank) {
 		return __getTheN(arr, 0, length - 1, rank - 1);
 	}
 }

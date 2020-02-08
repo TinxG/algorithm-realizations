@@ -1,3 +1,6 @@
 .clang-format
 *.pyc
 *.exe
+/C++/.vs/
+/C++/Release/
+/C++/Debug/

@@ -1,12 +1,12 @@
 #pragma once
-#include "insertionSort.h"
-#include "algotest.h"
+#include "insertion_sort.h"
+#include "algo_test.h"
 
-namespace algos
-{
-	template <class T>
-	void __merge(T arr[], int l, int mid, int r)
-	{
+namespace algos {
+	//merge函数
+	//归并两个数组
+	template <typename T>
+	void __merge(T arr[], int l, int mid, int r) {
 		vector<T> aux(r - l + 1);
 		for (int i = l; i <= r; i++)
 			aux[i - l] = arr[i];
@@ -38,9 +38,12 @@ namespace algos
 
 	}
 
-	template <class T>
-	void mergeSortBUA(T arr[], int length)
-	{
+	//从底到顶归并排序A
+	//无优化
+	//时间复杂度O(nlogn)
+	//较为缓慢
+	template <typename T>
+	void mergeSortBUA(T arr[], int length) {
 		for (int sz = 1; sz <= length; sz += sz)
 		{
 			for (int i = 0; i + sz < length; i += sz + sz)
@@ -50,9 +53,12 @@ namespace algos
 		}
 	}
 
-	template <class T>
-	void mergeSortBUB(T arr[], int length)
-	{
+	//从底到顶归并排序B
+	//底层用归并排序B
+	//时间复杂度O(nlogn)
+	//很快
+	template <typename T>
+	void mergeSortBUB(T arr[], int length) {
 		for (int i = 0; i < length; i += 16)
 		{
 			insertionSortB(arr, i, i + 15);
@@ -67,9 +73,9 @@ namespace algos
 		}
 	}
 
-	template <class T>
-	void __mergeSortA(T arr[], int l, int r)
-	{
+	//递归实现的归并排序递归函数A
+	template <typename T>
+	void __mergeSortA(T arr[], int l, int r) {
 		if (l >= r)
 			return;
 
@@ -79,15 +85,18 @@ namespace algos
 		__merge(arr, l, mid, r);
 	}
 
-	template <class T>
-	void mergeSortA(T arr[], int length)
-	{
+	//递归实现的归并排序A
+	//无优化
+	//时间复杂度O(nlogn)
+	//很慢
+	template <typename T>
+	void mergeSortA(T arr[], int length) {
 		__mergeSortA(arr, 0, length - 1);
 	}
 
-	template <class T>
-	void __mergeSortB(T arr[], int l, int r)
-	{
+	//递归实现的归并排序递归函数B
+	template <typename T>
+	void __mergeSortB(T arr[], int l, int r) {
 		//if (l >= r)
 		//	return;
 		if (r - l <= 15)
@@ -102,15 +111,22 @@ namespace algos
 			__merge(arr, l, mid, r);
 	}
 
-	template <class T>
-	void mergeSortB(T arr[], int length)
-	{
+	//递归实现的归并排序B
+	//有优化
+	//时间复杂度O(nlogn)
+	//较快
+	template <typename T>
+	void mergeSortB(T arr[], int length) {
 		__mergeSortB(arr, 0, length - 1);
 	}
+
+	//TODO:K路归并排序
+	//这个太难了
+	//目前做不出来
+	//基于堆的
 	/*
-	template <class T>
-	void __mergeK(T arr[], int l, int r, int k, int len)
-	{
+	template <typename T>
+	void __mergeK(T arr[], int l, int r, int k, int len) {
 		T* aux = new T[r - l + 1];
 		for (int i = l; i <= r; i++)
 			aux[l - i] = arr[i];
@@ -123,9 +139,8 @@ namespace algos
 			
 		}
 	}
-	template <class T>
-	void __mergeSortK(T arr[], int l, int r, int k)
-	{
+	template <typename T>
+	void __mergeSortK(T arr[], int l, int r, int k) {
 		if (l >= r)
 			return;
 		int len = (l - r + k) / k;
@@ -136,9 +151,8 @@ namespace algos
 		__mergeK(arr, l, r, k, len);
 	}
 
-	template <class T, int k>
-	void mergeSortK(T arr[], int length)
-	{
+	template <typename T, int k>
+	void mergeSortK(T arr[], int length) {
 		__mergeSortK(T arr[], 0, length - 1, k);
 	}
 	*/
