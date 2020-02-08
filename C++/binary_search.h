@@ -1,12 +1,12 @@
-#pragma once
+ï»¿#pragma once
 #include "algo_test.h"
 
 namespace algos {
-	//¶ş·Ö²éÕÒ·¨£¨µü´ú£©
-	//Êı×éarr±ØĞëÎªÉıĞòÓĞĞòÊı×é
+	//äºŒåˆ†æŸ¥æ‰¾æ³•ï¼ˆè¿­ä»£ï¼‰
+	//æ•°ç»„arrå¿…é¡»ä¸ºå‡åºæœ‰åºæ•°ç»„
 	template <typename T>
 	int binarySearchA(T arr[], int length, T target) {
-		//²éÕÒÇø¼ä[l,r]
+		//æŸ¥æ‰¾åŒºé—´[l,r]
 		int l = 0, r = length - 1;
 		while (l <= r) {
 			int mid = l + (r - l) / 2;
@@ -25,10 +25,9 @@ namespace algos {
 		return -1;
 	}
 
-	//µİ¹éº¯Êı
+	//é€’å½’å‡½æ•°
 	template <typename T>
-	int __binarySearch(T arr[], int l, int r, T target)
-	{
+	int __binarySearch(T arr[], int l, int r, T target) {
 		if (l > r)
 			return -1;
 		int mid = (r - l) / 2 + l;
@@ -40,11 +39,10 @@ namespace algos {
 			return __binarySearch(arr, mid + 1, r, target);
 	}
 
-	//²ÉÓÃµİ¹éµÄ¶ş·Ö²éÕÒ·¨
-	//Êı×éarr±ØĞëÎªÉıĞòÓĞĞòÊı×é
+	//é‡‡ç”¨é€’å½’çš„äºŒåˆ†æŸ¥æ‰¾æ³•
+	//æ•°ç»„arrå¿…é¡»ä¸ºå‡åºæœ‰åºæ•°ç»„
 	template <typename T>
-	int binarySearchB(T arr[], int length, T target)
-	{
+	int binarySearchB(T arr[], int length, T target) {
 		return __binarySearch(arr, 0, length - 1, target);
 	}
 }
