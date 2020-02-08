@@ -1,6 +1,0 @@
-﻿  test.cpp
-C:\Users\Vincent Xiang\Documents\Git Repos\algorithm-realizations\C++\algo_test.h(36,13): warning C4244:  “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-C:\Users\Vincent Xiang\Documents\Git Repos\algorithm-realizations\C++\algo_test.h(52,13): warning C4244:  “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
-C:\Users\Vincent Xiang\Documents\Git Repos\algorithm-realizations\C++\algo_test.h(52,13): warning C4244: C:\Users\Vincent Xiang\Documents\Git Repos\algorithm-realizations\C++\bubble_sort.h: warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-LINK : warning LNK4075: 忽略“/INCREMENTAL”(由于“/OPT:ICF”规范)
-  algorithm-realizations.vcxproj -> C:\Users\Vincent Xiang\Documents\Git Repos\algorithm-realizations\C++\Release\algorithm-realizations.exe
