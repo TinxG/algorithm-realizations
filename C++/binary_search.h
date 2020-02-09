@@ -93,4 +93,135 @@ namespace algos {
 			return l + 1;
 		return l;
 	}
+
+	
+}
+
+namespace dataStruct {
+	//BinarySearchTree，二分查找树
+	//每个节点都大于左子节点，小于右子节点
+	//不必要是一棵完全二叉树
+	template <typename Key, typename Value>
+	class BST {
+	private:
+		struct Node {
+			Key key;
+			Value value;
+			Node* left;
+			Node* right;
+
+			Node(Key key, Value value) {
+				this->key = key;
+				this->value = value;
+				this->left = nullptr;
+				this->right = nullptr;
+			}
+
+			~Node() {
+				if (left != nullptr)
+					delete left;
+				if (right != nullptr)
+					delete right;
+			}
+		};
+
+		Node* root;
+		int __iSize;
+
+		Node* insert(Node* node, Key key, Value value) {
+			if (node == nullptr) {
+				__iSize++;
+				return new Node(key, value);
+			}
+
+			if (node->key == key) {
+				node->value = value;
+			}
+			else if (node->key > key) {
+				node->left = insert(node->left, key, value);
+			}
+			else {
+				node->right = insert(node->right, key, value);
+			}
+
+			return node;
+		}
+
+		bool isContain(Node* node, Key key) {
+			if (node == nullptr)
+				return false;
+
+			if (node->key == key)
+				return true;
+			else if (node->key > key)
+				return isContain(node->left, key);
+			else
+				return isContain(node->right, key);
+		}
+
+		Value search(Node* node, Key key) {
+			if (node == nullptr) {
+				return NULL;
+			}
+
+			if (node->key == key)
+				return node->value;
+			else if (node->key > key)
+				return search(node->left, key);
+			else
+				return search(node->right, key);
+		}
+
+	public:
+		BST() {
+			root = nullptr;
+			__iSize = 0;
+		}
+
+		~BST() {
+			delete root;
+		}
+
+		int getSize() {
+			return __iSize;
+		}
+
+		bool isEmpty() {
+			return __iSize == 0;
+		}
+
+		BST& insertA(Key key, Value value) {
+			root = insert(root, key, value);
+			return *this;
+		}
+
+		BST& insertB(Key key, Value value) {
+			Node* node = root;
+			while (node != nullptr) {
+				if (node->key == key) {
+					node->value = value;
+				}
+				else if (node->key > key) {
+					node = node->left;
+					continue;
+				}
+				else {
+					node = node->right;
+					continue;
+				}
+			}
+			node = new Node(key, value);
+			__iSize++;
+			return *this;
+		}
+
+		bool isContain(Key key) {
+			return isContain(root, key);
+		}
+
+		Value operator[](Key key) {
+			assert(isContain(key));
+			return search(root, key);
+		}
+	};
 }
