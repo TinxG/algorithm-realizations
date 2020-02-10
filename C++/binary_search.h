@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "algo_test.h"
+#include <queue>
 
 namespace algos {
 	//二分查找法（迭代）
@@ -118,10 +119,12 @@ namespace dataStruct {
 			}
 
 			~Node() {
+				/*
 				if (left != nullptr)
 					delete left;
 				if (right != nullptr)
 					delete right;
+				*/
 			}
 		};
 
@@ -172,6 +175,124 @@ namespace dataStruct {
 				return search(node->right, key);
 		}
 
+		void preOrder(Node* node) {
+			if (node != nullptr) {
+				cout << node->key << endl;
+				preOrder(node->left);
+				preOrder(node->right);
+			}
+		}
+
+		void inOrder(Node* node) {
+			if (node != nullptr) {
+				inOrder(node->left);
+				cout << node->key << endl;
+				inOrder(node->right);
+			}
+		}
+
+		void postOrder(Node* node) {
+			if (node != nullptr) {
+				postOrder(node->left);
+				postOrder(node->right);
+				cout << node->key << endl;
+			}
+		}
+
+		void destroy(Node* node) {
+			if (node != nullptr) {
+				destroy(node->left);
+				destroy(node->right);
+				delete node;
+			}
+		}
+
+		void levelOrder(Node* node) {
+			queue<Node*> q;
+			q.push(root);
+			while (!q.empty()) {
+				Node* n = q.front();
+				q.pop();
+				cout << n->key << endl;
+				if (n->left != nullptr)
+					q.push(n->left);
+				if (n->right != nullptr)
+					q.push(n->right);
+			}
+		}
+
+		Node* minimum(Node* node) {
+			if (node->left == nullptr)
+				return node;
+			return minimum(node->left);
+		}
+
+		//迭代方式
+		Node* minimumI(Node* node) {
+			while (node->left != nullptr) {
+				node = node->left;
+			}
+			return node;
+		}
+
+		Node* maximum(Node* node) {
+			if (node->right == nullptr)
+				return node;
+			return maximum(node->right);
+		}
+
+		//迭代方式
+		Node* maximumI(Node* node) {
+			while (node->right != nullptr) {
+				node = node->right;
+			}
+			return node;
+		}
+
+		Node* removeMin(Node* node) {
+			if (node->left == nullptr) {
+				Node* ri = node->right;
+				delete node;
+				__iSize--;
+				return ri;
+			}
+
+			node->left = removeMin(node->left);
+			return node;
+		}
+
+		//迭代方式
+		void removeMinI(Node* node) {
+			while (node->left->left != nullptr) {
+				node = node->left;
+			}
+			Node* ri = node->left->right;
+			delete node->left;
+			__iSize--;
+			node->left = ri;
+		}
+
+		Node* removeMax(Node* node) {
+			if (node->right == nullptr) {
+				Node* le = node->left;
+				delete node;
+				__iSize--;
+				return le;
+			}
+
+			node->right = removeMax(node->right);
+			return node;
+		}
+
+		void removeMaxI(Node* node) {
+			while (node->right->right != nullptr) {
+				node = node->right;
+			}
+			Node* le = node->right->left;
+			delete node->right;
+			__iSize--;
+			node->right = le;
+		}
 	public:
 		BST() {
 			root = nullptr;
@@ -179,7 +300,8 @@ namespace dataStruct {
 		}
 
 		~BST() {
-			delete root;
+			//delete root;
+			destroy(root);
 		}
 
 		int getSize() {
@@ -190,28 +312,8 @@ namespace dataStruct {
 			return __iSize == 0;
 		}
 
-		BST& insertA(Key key, Value value) {
+		BST& insert(Key key, Value value) {
 			root = insert(root, key, value);
-			return *this;
-		}
-
-		BST& insertB(Key key, Value value) {
-			Node* node = root;
-			while (node != nullptr) {
-				if (node->key == key) {
-					node->value = value;
-				}
-				else if (node->key > key) {
-					node = node->left;
-					continue;
-				}
-				else {
-					node = node->right;
-					continue;
-				}
-			}
-			node = new Node(key, value);
-			__iSize++;
 			return *this;
 		}
 
@@ -222,6 +324,46 @@ namespace dataStruct {
 		Value operator[](Key key) {
 			assert(isContain(key));
 			return search(root, key);
+		}
+
+		void preOrder() {
+			preOrder(root);
+		}
+
+		void inOrder() {
+			inOrder(root);
+		}
+
+		void postOrder() {
+			postOrder(root);
+		}
+
+		void levelOrder() {
+			levelOrder(root);
+		}
+
+		Key minimum() {
+			assert(__iSize != 0);
+			Node* minNode = minimum(root);
+			return minNode->key;
+		}
+
+		Key maximum() {
+			assert(__iSize != 0);
+			Node* maxNode = maximum(root);
+			return maxNode->key;
+		}
+
+		void removeMin() {
+			if (root != nullptr) {
+				root = removeMin(root);
+			}
+		}
+
+		void removeMax() {
+			if (root != nullptr) {
+				root = removeMax(root);
+			}
 		}
 	};
 }

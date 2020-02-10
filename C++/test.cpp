@@ -10,8 +10,13 @@ using namespace dataStruct;
 int main() {
 	//在此添加测试代码
 	BST<int, int> bst;
-	bst.insertA(0, 5).insertB(4, 11).insertA(3,12).insertA(4, 12);
-	cout << bst[0] << "," << bst[4] << endl;
+	bst.insert(0, 5).insert(3, 12).insert(5, 12).insert(2, 11).insert(55, 33);
+	bst.levelOrder();
+	bst.inOrder();
+	bst.removeMin();
+	bst.removeMax();
+	bst.levelOrder();
+	cout << bst.getSize() << endl;
 	system("pause");
 	return 0;
 }
