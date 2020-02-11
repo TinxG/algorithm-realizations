@@ -13,8 +13,7 @@ int main() {
 	bst.insert(0, 5).insert(3, 12).insert(5, 12).insert(2, 11).insert(55, 33);
 	bst.levelOrder();
 	bst.inOrder();
-	bst.removeMin();
-	bst.removeMax();
+	bst.remove(3);
 	bst.levelOrder();
 	cout << bst.getSize() << endl;
 	system("pause");

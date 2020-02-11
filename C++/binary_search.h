@@ -118,6 +118,13 @@ namespace dataStruct {
 				this->right = nullptr;
 			}
 
+			Node(const Node* node) {
+				this->key = node->key;
+				this->value = node->value;
+				this->left = node->left;
+				this->right = node->right;
+			}
+
 			~Node() {
 				/*
 				if (left != nullptr)
@@ -293,6 +300,96 @@ namespace dataStruct {
 			__iSize--;
 			node->right = le;
 		}
+
+		Node* remove(Node* node, Key key) {
+			if (node == nullptr) {
+				return nullptr;
+			}
+
+			if (key < node->key) {
+				node->left = remove(node->left, key);
+				return node;
+			}
+			else if (key > node->key) {
+				node->right = remove(node->right, key);
+				return node;
+			}
+			else {
+				Node* successor = new Node(minimum(node->right));
+				__iSize++;
+
+				successor->right = removeMin(node->right);
+				successor->left = node->left;
+
+				delete node;
+				__iSize--;
+				return successor;
+			}
+		}
+
+		//使用前驱节点的Hubbard Deletion
+		Node* removeP(Node* node, Key key) {
+			if (node == nullptr) {
+				return nullptr;
+			}
+
+			if (key < node->key) {
+				node->left = remove(node->left, key);
+				return node;
+			}
+			else if (key > node->key) {
+				node->right = remove(node->right, key);
+				return node;
+			}
+			else {
+				Node* predeccesor = new Node(maximum(node->left));
+				__iSize++;
+				
+				predeccesor->left = removeMax(node->left);
+				predeccesor->right = node->right;
+
+				delete node;
+				__iSize--;
+
+				return predeccesor;
+			}
+		}
+
+		Node* floor(Node* node, Key key) {
+			if (node == nullptr) {
+				return node;
+			}
+
+			if (key < node->key) {
+				return floor(node->left, key);
+			}
+			else if (key == node->key) {
+				return node;
+			}
+			else {
+				Node* temp = floor(node->right, key);
+				return temp != nullptr ? temp : node;
+			}
+
+		}
+
+		Node* ceil(Node* node, Key key) {
+			if (node == nullptr) {
+				return nullptr;
+			}
+
+			if (key > node->key) {
+				return floor(node->right, key);
+			}
+			else if (key == node->key) {
+				return node;
+			}
+			else {
+				Node* temp = floor(node->left, key);
+				return temp != nullptr ? temp : node;
+			}
+		}
+
 	public:
 		BST() {
 			root = nullptr;
@@ -364,6 +461,24 @@ namespace dataStruct {
 			if (root != nullptr) {
 				root = removeMax(root);
 			}
+		}
+
+		void remove(Key key) {
+			root = remove(root, key);
+		}
+
+		Key floor(Key key) {
+			if (isEmpty() || minimum() > key) {
+				return NULL;
+			}
+			return floor(root, key)->key;
+		}
+
+		Key ceil(Key key) {
+			if (isEmpty() || maximum() < key) {
+				return NULL;
+			}
+			return ceil(root, key)->key;
 		}
 	};
 }
