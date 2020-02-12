@@ -102,6 +102,7 @@ namespace dataStruct {
 	//BinarySearchTree，二分查找树
 	//每个节点都大于左子节点，小于右子节点
 	//不必要是一棵完全二叉树
+	//已经优化为AVL平衡二叉树
 	template <typename Key, typename Value>
 	class BST {
 	private:
@@ -151,6 +152,51 @@ namespace dataStruct {
 			return node->n;
 		}
 
+		int height(Node* node) {
+			if (node == nullptr) {
+				return 0;
+			}
+			return node->height;
+		}
+
+		int bf(Node* node) {
+			return abs(height(node->left) - height(node->right));
+		}
+
+		Node* leftRotation(Node* node) {
+			Node* curRight = new Node(node->right);
+			__iSize++;
+			delete node->right;
+			__iSize--;
+			node->right = curRight->left;
+			curRight->left = node;
+			node->height = max(height(node->left), height(node->right)) + 1;
+			curRight->height = max(height(curRight->left), height(curRight->right)) + 1;
+			return curRight;
+		}
+
+		Node* rightRotation(Node* node) {
+			Node* curLeft = new Node(node->left);
+			__iSize++;
+			delete node->left;
+			__iSize--;
+			node->left = curLeft->right;
+			curLeft->right = node;
+			node->height = max(height(node->left), height(node->right)) + 1;
+			curLeft->height = max(height(curLeft->left), height(curLeft->right)) + 1;
+			return curLeft;
+		}
+
+		Node* leftRightRotation(Node* node) {
+			node->left =leftRotation(node->left);
+			return rightRotation(node);
+		}
+
+		Node* rightLeftRotation(Node* node) {
+			node->right = rightRotation(node->right);
+			return leftRotation(node);
+		}
+
 		Node* insert(Node* node, Key key, Value value) {
 			if (node == nullptr) {
 				__iSize++;
@@ -162,13 +208,29 @@ namespace dataStruct {
 			}
 			else if (node->key > key) {
 				node->left = insert(node->left, key, value);
+				if (bf(node) > 1) {
+					if (node->left->key > key) {
+						node = rightRotation(node);
+					}
+					if (node->left->key < key) {
+						node = leftRightRotation(node);
+					}
+				}
 			}
 			else {
 				node->right = insert(node->right, key, value);
+				if (bf(node) > 1) {
+					if (node->right->key < key) {
+						node = leftRotation(node);
+					}
+					if (node->right->key > key) {
+						node = rightLeftRotation(node);
+					}
+				}
 			}
 
 			node->n = size(node->left) + size(node->right) + 1;
-
+			node->height = max(height(node->left), height(node->right)) + 1;
 			return node;
 		}
 
@@ -280,11 +342,16 @@ namespace dataStruct {
 			}
 
 			node->left = removeMin(node->left);
+			if (bf(node) > 1) {
+				node = rightRotation(node);
+			}
 			node->n = size(node->left) + size(node->right) + 1;
+			node->height = max(height(node->left), height(node->right)) + 1;
 			return node;
 		}
 
-		//迭代方式
+		//迭代方式（不支持AVL）
+		/*
 		void removeMinI(Node* node) {
 			while (node->left->left != nullptr) {
 				node->n--;
@@ -296,6 +363,7 @@ namespace dataStruct {
 			__iSize--;
 			node->left = ri;
 		}
+		*/
 
 		Node* removeMax(Node* node) {
 			if (node->right == nullptr) {
@@ -306,10 +374,16 @@ namespace dataStruct {
 			}
 
 			node->right = removeMax(node->right);
+			if (bf(node) > 1) {
+				node = leftRotation(node);
+			}
 			node->n = size(node->left) + size(node->right) + 1;
+			node->height = max(height(node->left), height(node->right)) + 1;
 			return node;
 		}
 
+		//迭代方式（不支持AVL）
+		/*
 		void removeMaxI(Node* node) {
 			while (node->right->right != nullptr) {
 				node->n--;
@@ -321,6 +395,7 @@ namespace dataStruct {
 			__iSize--;
 			node->right = le;
 		}
+		*/
 
 		Node* remove(Node* node, Key key) {
 			if (node == nullptr) {
@@ -329,11 +404,25 @@ namespace dataStruct {
 
 			if (key < node->key) {
 				node->left = remove(node->left, key);
-				
+				if (bf(node) > 1) {
+					if (key < node->left->key) {
+						node = leftRotation(node);
+					}
+					if (key > node->left->key) {
+						node = rightLeftRotation(node);
+					}
+				}
 			}
 			else if (key > node->key) {
 				node->right = remove(node->right, key);
-				
+				if (bf(node) > 1) {
+					if (key > node->right->key) {
+						node = rightRotation(node);
+					}
+					if (key < node->right->key) {
+						node = leftRightRotation(node);
+					}
+				}
 			}
 			else {
 				Node* successor = new Node(minimum(node->right));
@@ -348,6 +437,7 @@ namespace dataStruct {
 				return successor;
 			}
 			node->n = size(node->left) + size(node->right) + 1;
+			node->height = max(height(node->left), height(node->right)) + 1;
 			return node;
 		}
 
@@ -418,9 +508,7 @@ namespace dataStruct {
 		}
 
 		int rank(Node* node, Key key) {
-			if (node == nullptr) {
-				return NULL;
-			}
+			assert(node != nullptr);
 
 			if (key < node->key) {
 				return rank(node->left, key);
@@ -434,9 +522,7 @@ namespace dataStruct {
 		}
 
 		Node* select(Node* node, int rank) {
-			if (node == nullptr) {
-				return NULL;
-			}
+			assert(node != nullptr);
 
 			if (rank <= size(node->left)) {
 				return select(node->left, rank);
@@ -543,16 +629,12 @@ namespace dataStruct {
 		}
 
 		int rank(Key key) {
-			if (!isContain(key)) {
-				return NULL;
-			}
+			assert(isContain(key));
 			return rank(root, key);
 		}
 
 		Key select(int rank) {
-			if (rank > __iSize) {
-				return NULL;
-			}
+			assert(rank <= __iSize);
 			return select(root, rank)->key;
 		}
 	};
