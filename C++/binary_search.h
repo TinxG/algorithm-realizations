@@ -110,10 +110,14 @@ namespace dataStruct {
 			Value value;
 			Node* left;
 			Node* right;
+			int n;
+			int height;
 
 			Node(Key key, Value value) {
 				this->key = key;
 				this->value = value;
+				n = 1;
+				height = 1;
 				this->left = nullptr;
 				this->right = nullptr;
 			}
@@ -123,6 +127,8 @@ namespace dataStruct {
 				this->value = node->value;
 				this->left = node->left;
 				this->right = node->right;
+				this->n = node->n;
+				this->height = node->height;
 			}
 
 			~Node() {
@@ -137,6 +143,13 @@ namespace dataStruct {
 
 		Node* root;
 		int __iSize;
+
+		int size(Node* node) {
+			if (node == nullptr) {
+				return 0;
+			}
+			return node->n;
+		}
 
 		Node* insert(Node* node, Key key, Value value) {
 			if (node == nullptr) {
@@ -153,6 +166,8 @@ namespace dataStruct {
 			else {
 				node->right = insert(node->right, key, value);
 			}
+
+			node->n = size(node->left) + size(node->right) + 1;
 
 			return node;
 		}
@@ -265,16 +280,19 @@ namespace dataStruct {
 			}
 
 			node->left = removeMin(node->left);
+			node->n = size(node->left) + size(node->right) + 1;
 			return node;
 		}
 
 		//迭代方式
 		void removeMinI(Node* node) {
 			while (node->left->left != nullptr) {
+				node->n--;
 				node = node->left;
 			}
 			Node* ri = node->left->right;
 			delete node->left;
+			node->n--;
 			__iSize--;
 			node->left = ri;
 		}
@@ -288,15 +306,18 @@ namespace dataStruct {
 			}
 
 			node->right = removeMax(node->right);
+			node->n = size(node->left) + size(node->right) + 1;
 			return node;
 		}
 
 		void removeMaxI(Node* node) {
 			while (node->right->right != nullptr) {
+				node->n--;
 				node = node->right;
 			}
 			Node* le = node->right->left;
 			delete node->right;
+			node->n--;
 			__iSize--;
 			node->right = le;
 		}
@@ -308,11 +329,11 @@ namespace dataStruct {
 
 			if (key < node->key) {
 				node->left = remove(node->left, key);
-				return node;
+				
 			}
 			else if (key > node->key) {
 				node->right = remove(node->right, key);
-				return node;
+				
 			}
 			else {
 				Node* successor = new Node(minimum(node->right));
@@ -323,8 +344,11 @@ namespace dataStruct {
 
 				delete node;
 				__iSize--;
+				successor->n = size(successor->left) + size(successor->right) + 1;
 				return successor;
 			}
+			node->n = size(node->left) + size(node->right) + 1;
+			return node;
 		}
 
 		//使用前驱节点的Hubbard Deletion
@@ -335,11 +359,11 @@ namespace dataStruct {
 
 			if (key < node->key) {
 				node->left = remove(node->left, key);
-				return node;
+				
 			}
 			else if (key > node->key) {
 				node->right = remove(node->right, key);
-				return node;
+				
 			}
 			else {
 				Node* predeccesor = new Node(maximum(node->left));
@@ -351,8 +375,11 @@ namespace dataStruct {
 				delete node;
 				__iSize--;
 
+				predeccessor = size(predecessor->left) + size(predeccessor->right) + 1;
 				return predeccesor;
 			}
+			node->n = size(n->left) + size(n->right) + 1;
+			return node;
 		}
 
 		Node* floor(Node* node, Key key) {
@@ -387,6 +414,40 @@ namespace dataStruct {
 			else {
 				Node* temp = floor(node->left, key);
 				return temp != nullptr ? temp : node;
+			}
+		}
+
+		int rank(Node* node, Key key) {
+			if (node == nullptr) {
+				return NULL;
+			}
+
+			if (key < node->key) {
+				return rank(node->left, key);
+			}
+			else if (key > node->key) {
+				return rank(node->right, key) + size(node->left) + 1;
+			}
+			else {
+				return size(node->left) + 1;
+			}
+		}
+
+		Node* select(Node* node, int rank) {
+			if (node == nullptr) {
+				return NULL;
+			}
+
+			if (rank <= size(node->left)) {
+				return select(node->left, rank);
+			}
+			else {
+				if (rank == size(node->left) + 1) {
+					return node;
+				}
+				else {
+					return select(node->right, rank - size(node->left) - 1);
+				}
 			}
 		}
 
@@ -479,6 +540,20 @@ namespace dataStruct {
 				return NULL;
 			}
 			return ceil(root, key)->key;
+		}
+
+		int rank(Key key) {
+			if (!isContain(key)) {
+				return NULL;
+			}
+			return rank(root, key);
+		}
+
+		Key select(int rank) {
+			if (rank > __iSize) {
+				return NULL;
+			}
+			return select(root, rank)->key;
 		}
 	};
 }
