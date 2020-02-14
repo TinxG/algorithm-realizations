@@ -59,5 +59,11 @@
     <ClInclude Include="binary_search.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="union_find.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="union_test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

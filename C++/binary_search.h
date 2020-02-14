@@ -104,7 +104,7 @@ namespace dataStruct {
 	//不必要是一棵完全二叉树
 	//已经优化为AVL平衡二叉树
 	template <typename Key, typename Value>
-	class BST {
+	class AVL {
 	private:
 		struct Node {
 			Key key;
@@ -538,12 +538,12 @@ namespace dataStruct {
 		}
 
 	public:
-		BST() {
+		AVL() {
 			root = nullptr;
 			__iSize = 0;
 		}
 
-		~BST() {
+		~AVL() {
 			//delete root;
 			destroy(root);
 		}
@@ -556,7 +556,7 @@ namespace dataStruct {
 			return __iSize == 0;
 		}
 
-		BST& insert(Key key, Value value) {
+		AVL& insert(Key key, Value value) {
 			root = insert(root, key, value);
 			return *this;
 		}
@@ -638,4 +638,146 @@ namespace dataStruct {
 			return select(root, rank)->key;
 		}
 	};
+
+	/*
+	 TODO:Treap
+	//Treap，树堆
+	//每个节点都大于左子节点，小于右子节点
+	//不必要是一棵完全二叉树
+	//这睿智玩意儿，出了点bug
+	//等我学完了后面的内容再回来完善
+	template <typename Key>
+	class Treap {
+	private:
+		struct Node {
+			Key key;
+			Node* left;
+			Node* right;
+			int size;
+			int rpt;
+			int prty;
+			Node(Key key) {
+				left = nullptr;
+				right = nullptr;
+				size = 1;
+				rpt = 1;
+				prty = Rand();
+			}
+
+			int Rand() {
+				unsigned long long ull = 2333L;
+				return (int)ull * 233333L % 2147483647;
+			}
+		};
+
+		int size(Node* node) {
+			if (node == nullptr) {
+				return 0;
+			}
+			return node->size;
+		}
+
+		void update(Node* node) {
+			if (node == nullptr) {
+				return;
+			}
+			node->size = size(node->left) + size(node->right) + node->rpt;
+		}
+
+		void leftRotation(Node*& node) {
+			Node* ri = node->right;
+			node->right = ri->left;
+			ri->left = node;
+			update(node);
+			update(ri);
+			node = ri;
+		}
+
+		void rightRotation(Node*& node) {
+			Node* le = node->left;
+			node->left = le->right;
+			le->right = node;
+			update(node);
+			update(le);
+			node = le;
+		}
+
+		Node* root;
+		int iSize;
+
+		void destroy(Node* node) {
+			if (node != nullptr) {
+				destroy(node->left);
+				destroy(node->right);
+				delete node;
+			}
+		}
+
+		void insert(Node*& node, Key& key) {
+			if (node == nullptr) {
+				node = new Node(key);
+				iSize++;
+				return;
+			}
+
+			if (key == node->key) {
+				node->rpt++;
+			}
+			else if (key < node->key) {
+				insert(node->left, key);
+				if (node->left->prty > node->prty) {
+					rightRotation(node);
+				}
+			}
+			else {
+				insert(node->right, key);
+				if (node->right->prty > node->prty) {
+					leftRotation(node);
+				}
+			}
+			update(node);
+		}
+
+		void preOrder(Node* node) {
+			if (node != nullptr) {
+				cout << node->key << " ";
+				preOrder(node->left);
+				preOrder(node->right);
+			}
+		}
+
+	public:
+		Treap() {
+			root = nullptr;
+			iSize = 0;
+		}
+
+		~Treap() {
+			destroy(root);
+		}
+
+		void insert(Key key) {
+			insert(root, key);
+		}
+		
+		void preOrder() {
+			preOrder(root);
+		}
+
+	};
+	*/
+
+	/*
+	 * TODO:2-3 Tree
+	 * 还是留给Joxos做吧
+	 * 
+	 * TODO:Splay Tree
+	 * 也留给Joxos做
+	 * 我受够树形结构了！
+	 * 
+	 * TODO:红黑树
+	 * 这个给我做
+	 * 比较经典
+	 * 
+	 */
 }
