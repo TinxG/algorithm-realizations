@@ -1,5 +1,6 @@
 #pragma once
 #include "algo_test.h"
+#include "insertion_sort.h"
 
 namespace algos {
 	//µ¥Â·partition
