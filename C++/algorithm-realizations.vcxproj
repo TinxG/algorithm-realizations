@@ -104,6 +104,7 @@
     <ClInclude Include="algo_test.h" />
     <ClInclude Include="binary_search.h" />
     <ClInclude Include="bubble_sort.h" />
+    <ClInclude Include="dense_graph.h" />
     <ClInclude Include="heap.h" />
     <ClInclude Include="heap_sort.h" />
     <ClInclude Include="insertion_sort.h" />
@@ -113,6 +114,7 @@
     <ClInclude Include="quick_sort.h" />
     <ClInclude Include="rnp.h" />
     <ClInclude Include="selection_sort.h" />
+    <ClInclude Include="sparse_graph.h" />
     <ClInclude Include="structure.h" />
     <ClInclude Include="union_find.h" />
     <ClInclude Include="union_test.h" />

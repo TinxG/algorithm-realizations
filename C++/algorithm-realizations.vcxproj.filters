@@ -65,5 +65,11 @@
     <ClInclude Include="union_test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dense_graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sparse_graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
